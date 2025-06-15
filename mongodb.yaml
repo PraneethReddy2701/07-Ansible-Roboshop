@@ -11,4 +11,9 @@
     ansible.builtin.package:
       name: mongodb-org
       state: installed
-      
+
+  - name: Start MongoDB
+    ansible.builtin.service:
+      name: mongodb-org
+      state: started
+      enabled: yes
