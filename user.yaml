@@ -1,0 +1,57 @@
+- name: configuring User server
+  hosts: redis
+  become: yes
+  tasks:
+  - name: Disabling nodejs default version
+    ansible.builtin.command: dnf module disable nodejs -y
+
+  - name: Enabling nodejs required version 20
+    ansible.builtin.commmand: dnf module enable nodejs:20 -y
+
+  - name: Installing nodejs
+    ansible.builtin.package:
+      name: nodejs
+      state: installed
+
+  - name: creating system user roboshop
+    ansible.builtin.user:
+      name: roboshop
+      system: true
+      shell: sbin/nologin
+      home: /app
+      state: present
+
+  - name: Download the application code
+    ansible.builtin.get_url:
+      url: https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
+      dest: /tmp/user.zip
+
+  - name: Unzip the code
+    ansible.builtin.unarchieve:
+      src: /tmp/user.zip
+      dest: /app
+      remote_src: yes
+
+  - name: Install dependencies
+    community.general.npm:
+      path: /app
+
+  - name: Copying user service file
+    ansible.builtin.copy:
+      src: user.service
+      dest: /etc/systemd/system/user.service
+
+  - name: Daemon reload
+    ansible.builtin.systemd_service:
+      name: user
+      daemon_reload: true
+
+  - name: Start and enable user
+    ansible.builtin.systemd_service:
+      name: user
+      state: started
+      enabled: yes
+
+
+
+
