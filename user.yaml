@@ -1,5 +1,5 @@
 - name: configuring User server
-  hosts: redis
+  hosts: user
   become: yes
   tasks:
   - name: Disabling nodejs default version
@@ -19,7 +19,8 @@
       system: true
       shell: sbin/nologin
       home: /app
-      
+      state: present
+
   - name: Download the application code
     ansible.builtin.get_url:
       url: https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
