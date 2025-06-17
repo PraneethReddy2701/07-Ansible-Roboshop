@@ -3,7 +3,7 @@
   become: yes
   tasks:
   - name: Install Python Packages
-    ansible.builtin.package:
+    ansible.builtin.dnf:
       name: "{{ item }}"
       state: installed
     loop:
@@ -13,7 +13,7 @@
 
   - name: Creating app directory
     ansible.builtin.file:
-      path: /etc/app
+      path: /app
       state: directory
 
   - name: Create roboshop system user
@@ -52,7 +52,7 @@
       daemon_reload: true
 
   - name: Start and enable service
-    ansible.builtin.systemd_service:
+    ansible.builtin.service:
       name: payment
       state: started
       enabled: yes

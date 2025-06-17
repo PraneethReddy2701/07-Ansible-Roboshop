@@ -23,7 +23,7 @@
 
   - name: Creating app directory
     ansible.builtin.file:
-      path: /etc/app
+      path: /app
       state: directory
 
   - name: Download the code 
