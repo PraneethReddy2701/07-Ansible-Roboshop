@@ -21,6 +21,11 @@
       home: /app
       state: present
 
+  - name: Creating app directory
+    ansible.builtin.file:
+      path: /etc/app
+      state: directory
+
   - name: Download the application code
     ansible.builtin.get_url:
       url: https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip
