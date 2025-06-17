@@ -13,12 +13,12 @@
       state: installed
 
   - name: start and enable rabbitmq
-    ansible.builtin.systemd_service:
+    ansible.builtin.service:
       name: rabbitmq-server
       state: started
       enabled: yes
 
-  - name: 
+  - name: Adding roboshop user
     community.rabbitmq.rabbitmq_user:
       user: roboshop
       password: roboshop123
