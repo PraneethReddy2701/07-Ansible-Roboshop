@@ -13,6 +13,11 @@
       name: nodejs
       state: installed
 
+  - name: Creating app directory
+    ansible.builtin.file:
+      path: /etc/app
+      state: directory
+
   - name: creating roboshop system user
     ansible.builtin.user:
       name: roboshop
@@ -46,7 +51,7 @@
       daemon_reload: true
 
   - name: Start and enable cart
-    ansible.builtin.systemd_service:
+    ansible.builtin.service:
       name: cart
       state: started
       enabled: yes
